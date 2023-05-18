@@ -99,9 +99,9 @@ async function main() {
           nota,
           comentarios,
         ] = lines[i].split(",");
-        console.log(
-          `${marca}, ${nombre}, ${estilo}, ${graduacion}, ${nacionalidad}, ${nota}, ${comentarios}`
-        );
+        // console.log(
+        //   `${marca}, ${nombre}, ${estilo}, ${graduacion}, ${nacionalidad}, ${nota}, ${comentarios}`
+        // );
         await connection.query(`INSERT INTO cervezas(brand, name, style, graduation, country, score, comments, img_file) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`, [marca, nombre, estilo, graduacion, nacionalidad, nota, comentarios, ""]);
       }
     }
