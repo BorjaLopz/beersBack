@@ -6,14 +6,10 @@ const chalk = require("chalk");
 
 /* Leer el fichero */
 const fs = require("fs");
-const { readByLine } = require("../readFiles");
 const StringDecoder = require("string_decoder").StringDecoder;
 const decoder = new StringDecoder("utf-8");
 
 const filename = "Cervezas - Listado Cervezas.csv";
-
-// const { faker } = require("@faker-js/faker/locale/es");
-// const bcrypt = require("bcrypt");
 
 const addData = process.argv[2] === "--data";
 
@@ -32,8 +28,6 @@ async function main() {
 
     //Borrar tablas
     console.log(chalk.yellow("Deleting old tables..."));
-    // await connection.query("DROP TABLE IF EXISTS comments;");
-    // await connection.query("DROP TABLE IF EXISTS requiredS;");
     await connection.query("DROP TABLE IF EXISTS cervezas;");
 
     //Crear tablas
@@ -52,37 +46,6 @@ async function main() {
       img_file VARCHAR(100)
     );
     `);
-
-    // await connection.query(`
-    // CREATE TABLE requiredS(
-    //   id INT AUTO_INCREMENT PRIMARY KEY,
-    //   title VARCHAR(50) NOT NULL CHECK (LENGTH(title) >= 15),
-    //   request_body VARCHAR(500) NOT NULL CHECK (LENGTH(request_body) >= 15),
-    //   user_id INT NOT NULL,
-    //   file_name VARCHAR(30),
-    //   creation_date DATETIME DEFAULT CURRENT_TIMESTAMP,
-    //   required_type VARCHAR(20) NOT NULL,
-    //   done BOOLEAN DEFAULT FALSE,
-    //   hide BOOLEAN DEFAULT FALSE,
-    //   FOREIGN KEY (user_id) REFERENCES users (id)
-    // );
-    // `);
-
-    // await connection.query(`
-    // CREATE TABLE comments(
-    //   id INT AUTO_INCREMENT PRIMARY KEY,
-    //   user_id INT NOT NULL,
-    //   requiredS_id INT NOT NULL,
-    //   creation_date DATETIME DEFAULT CURRENT_TIMESTAMP,
-    //   comment VARCHAR(500) NOT NULL,
-    //   serviceFile VARCHAR(30),
-    //   hide BOOLEAN DEFAULT FALSE,
-    //   solution BOOLEAN DEFAULT FALSE,
-    //   FOREIGN KEY (user_id) REFERENCES users (id),
-    //   FOREIGN KEY (requiredS_id) REFERENCES requiredS (id)
-
-    // );
-    // `);
 
     if (addData) {
       console.log(chalk.blue(filename));
@@ -128,5 +91,3 @@ async function main() {
   }
 }
 main();
-
-// console.log("hola");
