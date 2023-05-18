@@ -4,10 +4,11 @@ _Base de datos de cervezas_
 ## 📋 Descripción
 * Podremos hacer las siguientes operaciones:
   - Obtener TODAS las cervezas
-  - Obtener TODAS las cervezas por MARCA
-  - Obtener TODAS las cervezas por PAIS
-  - Obtener TODAS las cervezas por ESTILO
-  - Obtener TODAS las cervezas de determinada graduación
+  - Obtener TODAS las cervezas por ID
+  - Obtener TODAS las cervezas por MARCA (por hacer)
+  - Obtener TODAS las cervezas por PAIS (por hacer)
+  - Obtener TODAS las cervezas por ESTILO (por hacer)
+  - Obtener TODAS las cervezas de determinada graduación (por hacer)
 
 ## ⚙ Inicialización
 ### Archivo .env
