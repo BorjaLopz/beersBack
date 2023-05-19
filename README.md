@@ -10,6 +10,7 @@
   - Obtener TODAS las cervezas por PAIS 
   - Obtener TODAS las cervezas por ESTILO 
   - Obtener TODAS las cervezas de determinada graduación
+  - Añadir nueva cerveza. Campos obligatorios **marca**, **nombre**, **estilo**, **graduación** y **país**. También podremos añadir puntuación, comentarios y un fichero [png, jpg o jpeg] para visualizar la cerveza.
 
 ## ⚙ Inicialización
 ### Archivo .env
