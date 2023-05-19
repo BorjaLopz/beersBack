@@ -1,5 +1,6 @@
 const { getConnection } = require("./db");
 const { generateError } = require("../helpers");
+const chalk = require("chalk");
 
 const getAllBeers = async () => {
   let connection;
@@ -118,7 +119,32 @@ const getBeerByGraduation = async (graduation) => {
   }
 };
 
+const addNewBeer = async (
+  brand,
+  name,
+  style,
+  graduation,
+  country,
+  score = "",
+  comments = "",
+  filename = ""
+) => {
+  let connection;
 
+  try {
+    connection = await getConnection();
+    const [newBeer] = await connection.query(
+      `INSERT INTO cervezas (brand, name, style, graduation, country, score, comments, img_file) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+      [brand, name, style, graduation, country, score, comments, filename]
+    );
+
+    console.log(chalk.green("Cerveza añadida con exito!"));
+
+    return newBeer.insertId;
+  } finally {
+    if (connection) connection.release();
+  }
+};
 
 module.exports = {
   getAllBeers,
@@ -127,4 +153,5 @@ module.exports = {
   getBeerByCountry,
   getBeerByStyle,
   getBeerByGraduation,
+  addNewBeer,
 };

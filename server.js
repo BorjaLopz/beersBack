@@ -1,6 +1,7 @@
 const express = require("express");
 
 const bodyParser = require("body-parser");
+const fileUpload = require("express-fileupload");
 
 require("dotenv").config();
 
@@ -14,13 +15,14 @@ const {
   getBeerByCountryController,
   getBeerByStyleController,
   getBeerByGraduationController,
+  addNewBeerController,
 } = require("./controllers/beers");
 
 const app = new express(); //Cremos instancia de express
 
 app.use(bodyParser.json());
-
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(fileUpload());
 
 /* Obtencion de todas las botellas */
 app.get("/beers/all", getAllBeersController);
@@ -40,6 +42,8 @@ app.get("/beer/style/:style", getBeerByStyleController);
 /* Obtencion de botellas por estilo */
 app.get("/beer/graduation/:graduation", getBeerByGraduationController);
 
+/* Añadir nueva cerveza */
+app.post("/beer/add", addNewBeerController);
 
 /* HANDLE ERRORS*/
 
@@ -51,7 +55,7 @@ const PORT = process.env.APP_PORT || 3000;
 app.listen(PORT, async () => {
   console.log(
     chalk.green(
-      `\nApp listening on port ${PORT}\nDB: ${process.env.DB_DATABASE}`
+      `\nApp listening on port ${PORT}\nDB: ${process.env.DB_DATABASE}\n`
     )
   );
 });

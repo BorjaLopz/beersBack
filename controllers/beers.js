@@ -6,15 +6,24 @@ const {
   getBeerByCountry,
   getBeerByStyle,
   getBeerByGraduation,
+  addNewBeer,
 } = require("../db/beers.js");
-const { generateError } = require("../helpers.js")
+const {
+  generateError,
+  createPathIfNotExists,
+  getExtensionFile,
+  checkIfExtensionIsAllowed,
+  ALLOWED_EXTENSIONS,
+} = require("../helpers.js");
+const { nanoid } = require("nanoid");
+const path = require("path");
 
 const getAllBeersController = async (req, res, next) => {
   try {
     const beers = await getAllBeers();
 
-    if(beers.length === 0) {
-      throw generateError("No hay cervezas aún. ", 400)
+    if (beers.length === 0) {
+      throw generateError("No hay cervezas aún. ", 400);
     }
     res.send({
       status: "ok",
@@ -24,7 +33,7 @@ const getAllBeersController = async (req, res, next) => {
   } catch (e) {
     next(e);
   }
-}
+};
 
 const getBeerByIDController = async (req, res, next) => {
   try {
@@ -41,7 +50,7 @@ const getBeerByIDController = async (req, res, next) => {
   } catch (e) {
     next(e);
   }
-}
+};
 
 const getBeerByBrandController = async (req, res, next) => {
   try {
@@ -115,9 +124,71 @@ const getBeerByGraduationController = async (req, res, next) => {
   }
 };
 
+const addNewBeerController = async (req, res, next) => {
+  try {
+    const { brand, name, style, graduation, country, score, comments } =
+      req.body;
 
+    if (!brand || !name || !style || !graduation || !country) {
+      throw generateError(
+        "Tienes que introducir la marca, el nombre, el estilo, la graduacion y el pais de la cerveza para poder introducirla",
+        400
+      );
+    }
 
+    //FICHERO
+    let filename;
+    let uploadPath;
 
+    if (req.files && req.files.file) {
+      let sampleFile = req.files.file;
+
+      //Creamos el path
+      const uploadDir = path.join(__dirname, "../uploads");
+
+      //Creamos directorio si no existe
+      await createPathIfNotExists(uploadDir);
+
+      //Comprobamos si el fichero es valido
+      if (!checkIfExtensionIsAllowed(getExtensionFile(sampleFile.name))) {
+        throw generateError(
+          `Fichero no valido. Tipos de formato permitidos ${ALLOWED_EXTENSIONS}`,
+          415
+        );
+      }
+
+      //Generamos un nombre aleatorio
+      filename = `${nanoid(24)}.${getExtensionFile(sampleFile.name)}`;
+
+      uploadPath = uploadDir + "\\" + filename;
+
+      //Subimos el fichero
+      sampleFile.mv(uploadPath, function (e) {
+        if (e) {
+          throw generateError("No se pudo enviar el archivo.", 400);
+        }
+      });
+    }
+
+    const id_beer = await addNewBeer(
+      brand,
+      name,
+      style,
+      graduation,
+      country,
+      score,
+      comments,
+      filename
+    );
+
+    res.send({
+      status: "ok",
+      data: `Cerveza añadida con id ${id_beer}`,
+    });
+  } catch (e) {
+    next(e);
+  }
+};
 
 module.exports = {
   getAllBeersController,
@@ -126,4 +197,5 @@ module.exports = {
   getBeerByCountryController,
   getBeerByStyleController,
   getBeerByGraduationController,
+  addNewBeerController,
 };
