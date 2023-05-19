@@ -1,4 +1,4 @@
-# 🍻Base de datos de Cervezas🍻 
+# <p align="center">🍻 Base de datos de Cervezas 🍻</p>
 
 **_<p align="center">Base de datos de cervezas</p>_**
 
