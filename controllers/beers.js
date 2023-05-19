@@ -129,12 +129,21 @@ const addNewBeerController = async (req, res, next) => {
     const { brand, name, style, graduation, country, score, comments } =
       req.body;
 
-    if (!brand || !name || !style || !graduation || !country) {
-      throw generateError(
-        "Tienes que introducir la marca, el nombre, el estilo, la graduacion y el pais de la cerveza para poder introducirla",
-        400
-      );
-    }
+      let obj = {}; //Objeto vacio para luego iterar
+      obj.brand = brand;
+      obj.name = name;
+      obj.style = style;
+      obj.graduation = graduation;
+      obj.country = country;
+      obj.score = score;
+      obj.comments = comments;
+
+      //Mostramos cual es el dato que falta
+      for(const it in obj) {
+        if (!obj[it]) {
+          throw generateError(`Tienes que introducir el ${it}`, 400)
+        }
+      }
 
     //FICHERO
     let filename;
