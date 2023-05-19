@@ -1,6 +1,6 @@
 # <p align="center">🍻 Base de datos de Cervezas 🍻</p>
 
-**_<p align="center">Base de datos de cervezas</p>_**
+**_<p align="center">Base de datos de cervezas en la cual podras ver todas y cada una de ellas, filtrar por país, estilo, graduación e incluso añadir una nueva entrada a la base de datos.</p>_**
 
 ## 📋 Descripción
 * Podremos hacer las siguientes operaciones:
