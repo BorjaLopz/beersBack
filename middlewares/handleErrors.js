@@ -15,4 +15,4 @@ const error404 = (req, res) => {
   });
 };
 
-module.exports = { generalError, error404 };
+export { generalError, error404 };

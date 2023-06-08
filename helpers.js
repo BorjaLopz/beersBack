@@ -1,4 +1,4 @@
-const fs = require("fs/promises");
+import fs from "fs/promises";
 
 // EXTENSIÓN DE ARCHIVOS PERMITIDOS //
 const ALLOWED_EXTENSIONS = ["png", "jpg", "jpeg"];
@@ -28,10 +28,10 @@ function checkIfExtensionIsAllowed(fileExtension) {
   return ALLOWED_EXTENSIONS.includes(ext);
 }
 
-module.exports = {
+export {
   generateError,
   createPathIfNotExists,
   getExtensionFile,
   checkIfExtensionIsAllowed,
-  ALLOWED_EXTENSIONS
+  ALLOWED_EXTENSIONS,
 };

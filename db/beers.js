@@ -1,6 +1,6 @@
-const { getConnection } = require("./db");
-const { generateError } = require("../helpers");
-const chalk = require("chalk");
+import { getConnection } from "./db.js";
+import { generateError } from "../helpers.js";
+import chalk from "chalk";
 
 const getAllBeers = async () => {
   let connection;
@@ -8,6 +8,7 @@ const getAllBeers = async () => {
   try {
     connection = await getConnection();
     const [rows] = await connection.query(`SELECT * FROM cervezas`);
+    // console.log(rows)
 
     if (rows.length === 0) {
       throw generateError("No hay cervezas", 400);
@@ -146,7 +147,7 @@ const addNewBeer = async (
   }
 };
 
-module.exports = {
+export {
   getAllBeers,
   getBeerByID,
   getBeerByBrand,

@@ -1,12 +1,22 @@
 "use strict";
 
-require("dotenv").config();
-const { getConnection } = require("./db");
-const chalk = require("chalk");
+import dotenv from "dotenv";
+dotenv.config();
+
+import { getConnection } from "./db.js";
+import chalk from "chalk";
+import path from "path";
+import { fileURLToPath } from "url";
+import { createPathIfNotExists } from "../helpers.js";
+import { nanoid } from "nanoid";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 /* Leer el fichero */
-const fs = require("fs");
-const StringDecoder = require("string_decoder").StringDecoder;
+import fs from "fs";
+import { StringDecoder } from "string_decoder";
+StringDecoder.StringDecoder;
 const decoder = new StringDecoder("utf-8");
 
 const filename = "Cervezas - Listado Cervezas.csv";
@@ -41,6 +51,7 @@ async function main() {
       style VARCHAR(45) NOT NULL,
       graduation VARCHAR(5) NOT NULL,
       country VARCHAR(20) NOT NULL,
+      uuid VARCHAR(40) NOT NULL,
       score VARCHAR(5),
       comments VARCHAR(50),
       img_file VARCHAR(100)
@@ -61,11 +72,33 @@ async function main() {
           nacionalidad,
           nota,
           comentarios,
+          imagen,
         ] = lines[i].split(",");
+
         // console.log(
-        //   `${marca}, ${nombre}, ${estilo}, ${graduacion}, ${nacionalidad}, ${nota}, ${comentarios}`
+        //   `${marca}, ${nombre}, ${estilo}, ${graduacion}, ${nacionalidad}, ${nota}, ${comentarios}, ${imagen}`
         // );
-        await connection.query(`INSERT INTO cervezas(brand, name, style, graduation, country, score, comments, img_file) VALUES (?, ?, ?, ?, ?, ?, ?, ?)`, [marca, nombre, estilo, graduacion, nacionalidad, nota, comentarios, ""]);
+
+        // if (imagen !== "") {
+        //   uploadDataFiles(imagen);
+        // }
+
+        const currentUuid = `${nanoid(24)}`;
+
+        await connection.query(
+          `INSERT INTO cervezas(brand, name, style, graduation, country, uuid, score, comments, img_file) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+          [
+            marca,
+            nombre,
+            estilo,
+            graduacion,
+            nacionalidad,
+            currentUuid,
+            nota,
+            comentarios,
+            imagen,
+          ]
+        );
       }
     }
 
@@ -90,4 +123,5 @@ async function main() {
     process.exit();
   }
 }
+
 main();

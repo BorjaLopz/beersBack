@@ -1,5 +1,4 @@
-const chalk = require("chalk");
-const {
+import {
   getAllBeers,
   getBeerByID,
   getBeerByBrand,
@@ -7,16 +6,16 @@ const {
   getBeerByStyle,
   getBeerByGraduation,
   addNewBeer,
-} = require("../db/beers.js");
-const {
+} from "../db/beers.js";
+import {
   generateError,
   createPathIfNotExists,
   getExtensionFile,
   checkIfExtensionIsAllowed,
   ALLOWED_EXTENSIONS,
-} = require("../helpers.js");
-const { nanoid } = require("nanoid");
-const path = require("path");
+} from "../helpers.js";
+import { nanoid } from "nanoid";
+import path from "path";
 
 const getAllBeersController = async (req, res, next) => {
   try {
@@ -129,21 +128,21 @@ const addNewBeerController = async (req, res, next) => {
     const { brand, name, style, graduation, country, score, comments } =
       req.body;
 
-      let obj = {}; //Objeto vacio para luego iterar
-      obj.brand = brand;
-      obj.name = name;
-      obj.style = style;
-      obj.graduation = graduation;
-      obj.country = country;
-      obj.score = score;
-      obj.comments = comments;
+    let obj = {}; //Objeto vacio para luego iterar
+    obj.brand = brand;
+    obj.name = name;
+    obj.style = style;
+    obj.graduation = graduation;
+    obj.country = country;
+    obj.score = score;
+    obj.comments = comments;
 
-      //Mostramos cual es el dato que falta
-      for(const it in obj) {
-        if (!obj[it]) {
-          throw generateError(`Tienes que introducir el ${it}`, 400)
-        }
+    //Mostramos cual es el dato que falta
+    for (const it in obj) {
+      if (!obj[it]) {
+        throw generateError(`Tienes que introducir el ${it}`, 400);
       }
+    }
 
     //FICHERO
     let filename;
@@ -199,7 +198,7 @@ const addNewBeerController = async (req, res, next) => {
   }
 };
 
-module.exports = {
+export {
   getAllBeersController,
   getBeerByIDController,
   getBeerByBrandController,

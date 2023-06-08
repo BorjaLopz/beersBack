@@ -1,14 +1,15 @@
-const express = require("express");
+import express from "express";
+import cors from "cors";
+import bodyParser from "body-parser";
+import fileUpload from "express-fileupload";
+import dotenv from "dotenv";
+import chalk from "chalk";
 
-const bodyParser = require("body-parser");
-const fileUpload = require("express-fileupload");
+//Handle Errors
+import { generalError, error404 } from "./middlewares/handleErrors.js";
 
-require("dotenv").config();
-
-const chalk = require("chalk");
-
-const { generalError, error404 } = require("./middlewares/handleErrors");
-const {
+//Controllers
+import {
   getAllBeersController,
   getBeerByIDController,
   getBeerByBrandController,
@@ -16,13 +17,26 @@ const {
   getBeerByStyleController,
   getBeerByGraduationController,
   addNewBeerController,
-} = require("./controllers/beers");
+} from "./controllers/beers.js";
 
+//dotEnv config
+dotenv.config();
+
+//Server
 const app = new express(); //Cremos instancia de express
+app.use(cors());
+
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json({ extended: false }));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(fileUpload());
+
+//Public Folder
+app.use(express.static("public"));
+
+//App Routes
 
 /* Obtencion de todas las botellas */
 app.get("/beers/all", getAllBeersController);
@@ -59,3 +73,30 @@ app.listen(PORT, async () => {
     )
   );
 });
+
+///////////////////////////////////////
+
+// import express from "express";
+// import cors from "cors";
+// import dotenv from "dotenv";
+// import bodyParser from "body-parser";
+
+// dotenv.config();
+
+// const app = new express();
+// // app.use(cors);
+
+// app.use(bodyParser.json());
+
+// app.get("/prueba", (req, res) => {
+//   res.send({
+//     status: "ok",
+//     message: "estamos haciendo una prueba",
+//   });
+// });
+
+// app.listen(process.env.APP_PORT, async () => {
+//   console.log(
+//     `\nApp listening on port ${process.env.APP_PORT}\nDB: ${process.env.DB_DATABASE}\n`
+//   );
+// });

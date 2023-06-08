@@ -1,5 +1,8 @@
-const mysql = require("mysql2/promise");
-const chalk = require("chalk");
+import mysql from "mysql2/promise";
+import chalk from "chalk";
+import dotenv from "dotenv";
+dotenv.config();
+
 const { DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE } = process.env;
 
 let pool;
@@ -24,4 +27,4 @@ const getConnection = async () => {
   }
 };
 
-module.exports = { getConnection };
+export { getConnection };
